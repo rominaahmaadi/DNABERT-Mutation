@@ -1,0 +1,17 @@
+# Data files — too large for GitHub
+*.csv
+*.gz
+*.tsv
+checkpoint.csv
+
+# API keys and secrets — never push these
+.env
+secrets.py
+
+# Python clutter
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+*.egg-info/
+dist/
+.DS_Store
