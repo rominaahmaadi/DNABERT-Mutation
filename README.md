@@ -1,1 +1,7 @@
-# DNABERT-Mutation
+This project fine-tunes DNABERT-2, a 117M-parameter transformer pre-trained on DNA sequences from 135 species, to classify whether a genomic sequence is likely to be pathogenic or benign. The data comes from ClinVar, a public database where researchers and clinicians submit variants linked to genetic diseases. For each variant, I fetched 513 nucleotides of flanking sequence around the mutation site using the NCBI Entrez API and built a balanced dataset of around 10,000 sequences.
+
+Fine-tuning was done in Google Colab on a T4 GPU. The final model reached a test F1 of 0.766 and an ROC-AUC of 0.828. To give that number meaning, I compared it against a Random Forest trained only on nucleotide composition features like GC content, dinucleotide frequencies, and CpG ratios. That classical baseline got an F1 of 0.669. The gap between the two shows that the transformer is picking up on sequence patterns that go beyond simple composition.
+
+The interpretability part of the project was the hardest to get working. DNABERT-2 uses Flash Attention by default, which is a fused CUDA kernel that never actually computes the attention matrix, so you cannot extract it directly. I worked around this by monkey-patching the attention module to store standard PyTorch attention weights. I also tried Integrated Gradients for attribution but had to abandon it because the Triton backward kernel produced non-converging completeness errors. I switched to Input x Gradient instead, which maps each nucleotide position to how much it influenced the model's prediction.
+
+I built this as a learning project. The goal was to understand the full pipeline from raw genomic data to a model that can say something interpretable about what it learned.
