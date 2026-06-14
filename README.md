@@ -4,4 +4,4 @@ Fine-tuning was done in Google Colab on a T4 GPU. The final model reached a test
 
 The interpretability part of the project was the hardest to get working. DNABERT-2 uses Flash Attention by default, which is a fused CUDA kernel that never actually computes the attention matrix, so you cannot extract it directly. I worked around this by monkey-patching the attention module to store standard PyTorch attention weights. I also tried Integrated Gradients for attribution but had to abandon it because the Triton backward kernel produced non-converging completeness errors. I switched to Input x Gradient instead, which maps each nucleotide position to how much it influenced the model's prediction.
 
-I built this as a learning project. The goal was to understand the full pipeline from raw genomic data to a model that can say something interpretable about what it learned.
+I built this as a learning project. The goal was to understand the full pipeline from raw genomic data to a model that can say something interpretable about what it learned
