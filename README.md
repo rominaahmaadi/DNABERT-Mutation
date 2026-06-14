@@ -1,3 +1,5 @@
+# DNABERT-Mutation
+
 This project fine-tunes DNABERT-2, a 117M-parameter transformer pre-trained on DNA sequences from 135 species, to classify whether a genomic sequence is likely to be pathogenic or benign. The data comes from ClinVar, a public database where researchers and clinicians submit variants linked to genetic diseases. For each variant, I fetched 513 nucleotides of flanking sequence around the mutation site using the NCBI Entrez API and built a balanced dataset of around 10,000 sequences.
 
 Fine-tuning was done in Google Colab on a T4 GPU. The final model reached a test F1 of 0.766 and an ROC-AUC of 0.828. To give that number meaning, I compared it against a Random Forest trained only on nucleotide composition features like GC content, dinucleotide frequencies, and CpG ratios. That classical baseline got an F1 of 0.669. The gap between the two shows that the transformer is picking up on sequence patterns that go beyond simple composition.
